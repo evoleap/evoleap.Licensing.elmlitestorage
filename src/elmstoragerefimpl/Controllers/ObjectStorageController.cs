@@ -6,7 +6,8 @@ namespace elmstoragerefimpl.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ObjectStorageController : ControllerBase
+[Produces("application/json")]
+public class ObjectStorageController : ApiController
 {
 
     private string StorageRoot { get; set; }
@@ -52,7 +53,7 @@ public class ObjectStorageController : ControllerBase
 
             try
             {
-                if (System.IO.File.Exists(fileName)) 
+                if (System.IO.File.Exists(fileName))
                 {
                     return Ok(GetFileData(fileName));
                 }
@@ -66,13 +67,13 @@ public class ObjectStorageController : ControllerBase
                 return Problem(ex.Message);
             }
         }
-        else 
+        else
         {
             try
             {
                 // Enumerate all objects of type ObjectType by listing Object.*.json                
                 var ret = EnumerateObjects(ObjectType)
-                    .Select(f => new ObjectWithId() { Id = f.Item2, Object = GetFileData(f.Item1)});
+                    .Select(f => new ObjectWithId() { Id = f.Item2, Object = GetFileData(f.Item1) });
                 return Ok(ret);
             }
             catch (System.Exception ex)
@@ -84,14 +85,15 @@ public class ObjectStorageController : ControllerBase
 
     private IEnumerable<(string, Guid)> EnumerateObjects(string ObjectType) =>
         System.IO.Directory.EnumerateFiles(StorageRoot, $"{ObjectType}.*.json")
-            .Select(f => {
+            .Select(f =>
+            {
                 // Get just the filename
                 var sep = f.LastIndexOf(Path.DirectorySeparatorChar);
-                if (sep > 0) 
+                if (sep > 0)
                 {
                     return (FullPath: f, FileName: f.Substring(sep + 1));
                 }
-                else 
+                else
                 {
                     return (FullPath: f, FileName: f);
                 }
@@ -100,7 +102,7 @@ public class ObjectStorageController : ControllerBase
             .Where(f => Guid.TryParse(f.id, out var _))
             .Select(f => (f.FullPath, Guid.Parse(f.id)));
 
-    private string GetFileData(string fileName) 
+    private string GetFileData(string fileName)
     {
         using var sr = System.IO.File.OpenText(fileName);
         return sr.ReadToEnd();
