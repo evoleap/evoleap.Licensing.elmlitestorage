@@ -7,7 +7,7 @@ namespace elmstoragerefimpl.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class ObjectStorageController : ApiController
+public class ObjectStorageController : ControllerBase
 {
 
     private string StorageRoot { get; set; }
@@ -25,6 +25,7 @@ public class ObjectStorageController : ApiController
         {
             System.IO.Directory.CreateDirectory(storageRootPath);
         }
+        Console.WriteLine($"Storage root is {storageRootPath}");
         StorageRoot = storageRootPath;
     }
 
@@ -50,6 +51,7 @@ public class ObjectStorageController : ApiController
         if (id.HasValue)
         {
             string fileName = GetFileName(ObjectType, id.Value);
+            Console.WriteLine($"Getting file {fileName}");
 
             try
             {
@@ -113,10 +115,12 @@ public class ObjectStorageController : ApiController
     [Route("{ObjectType}/{id}")]
     public IActionResult Post(string ObjectType, Guid? id, [FromBody] string data)
     {
+        Console.WriteLine($"Posting {ObjectType} with id {id}");
         Guid objId = id ?? Guid.NewGuid();
         string fileName = GetFileName(ObjectType, objId);
         try
         {
+            Console.WriteLine($"Posting file {fileName}");
             using var outFile = System.IO.File.OpenWrite(fileName);
             using var sr = new StreamWriter(outFile);
             sr.Write(data);
@@ -134,6 +138,7 @@ public class ObjectStorageController : ApiController
     public IActionResult Delete(string ObjectType, Guid id)
     {
         string fileName = GetFileName(ObjectType, id);
+        Console.WriteLine($"Deleting file {fileName}");
         try
         {
             System.IO.File.Delete(fileName);

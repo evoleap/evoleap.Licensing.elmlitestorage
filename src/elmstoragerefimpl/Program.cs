@@ -24,7 +24,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Use to debug http calls
+// app.UseHttpLogging();
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
