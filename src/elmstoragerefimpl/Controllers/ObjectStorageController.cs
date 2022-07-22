@@ -122,6 +122,7 @@ public class ObjectStorageController : ControllerBase
         {
             Console.WriteLine($"Posting file {fileName}");
             using var outFile = System.IO.File.OpenWrite(fileName);
+            outFile.SetLength(0); // Truncate
             using var sr = new StreamWriter(outFile);
             sr.Write(data);
             sr.Flush();
