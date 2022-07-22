@@ -8,12 +8,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Build configuration from files
-IConfiguration config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .AddEnvironmentVariables()
-    .Build();
+// IConfiguration config = new ConfigurationBuilder()
+//     .AddJsonFile("appsettings.json")
+//     .AddEnvironmentVariables()
+//     .Build();
 
-builder.Services.AddSingleton<IConfiguration>(config);
+// builder.Services.AddSingleton<IConfiguration>(config);
 
 var app = builder.Build();
 
