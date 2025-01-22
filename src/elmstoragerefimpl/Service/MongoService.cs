@@ -9,8 +9,10 @@ namespace elmstoragerefimpl.Service
     {
         private readonly IMongoCollection<BsonDocument> _collection;
 
-        public MongoService(IMongoClient mongoClient, IConfiguration config)
+        public MongoService(IConfiguration config)
         {
+            string mongoConnectionString = config.GetSection("CosmosDB")["ConnectionString"];
+            var mongoClient = new MongoClient(mongoConnectionString);
             string databaseName = config.GetSection("CosmosDB")["DatabaseName"];
             string collectionName = config.GetSection("CosmosDB")["CollectionName"];
 
