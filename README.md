@@ -6,7 +6,7 @@ The reference implementation stores in flat files. Values stored are unencrypted
 
 ## Running the reference implementation
 
-The reference implementation will run on Windows, Linux, or any platform supported by .NET 6. Download and install the [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to run the code.
+The reference implementation will run on Windows, Linux, or any platform supported by .NET 8. Download and install the [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) to run the code.
 
 To run the reference implementation, clone this repo from GitHub and do the following:
 
